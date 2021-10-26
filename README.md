@@ -1,2 +1,2 @@
 # Mobile-Software-Development
-# BookListMainActivity Folder is the Lab6.
+# 1、BookListMainActivity Folder is the Lab6.
