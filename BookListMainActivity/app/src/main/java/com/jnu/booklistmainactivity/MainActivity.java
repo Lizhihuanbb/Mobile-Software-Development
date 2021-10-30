@@ -6,11 +6,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,20 +44,20 @@ public class MainActivity extends AppCompatActivity{
 class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>{
     private List<Book> books;
 
-
     public CustomAdapter(List<Book> books){
         this.books=books;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
         private final ImageView imageView;
         private final TextView textView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             this.imageView = (ImageView) itemView.findViewById(R.id.image_view_book_cover);
             this.textView = (TextView) itemView.findViewById(R.id.text_view_book_title);
+
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         public ImageView getImageView() {
@@ -63,6 +66,39 @@ class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>{
 
         public TextView getTextView() {
             return textView;
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            MenuItem add=contextMenu.add(contextMenu.NONE,1,1,"Add");
+            MenuItem delete=contextMenu.add(contextMenu.NONE,2,2,"Delete");
+//            MenuItem delete=contextMenu.add(contextMenu.NONE,3,3,"Delete");
+            add.setOnMenuItemClickListener(this);
+            delete.setOnMenuItemClickListener(this);
+//            delete.setOnMenuItemClickListener(this);
+        }
+
+        @Override
+        public boolean onMenuItemClick(MenuItem menuItem) {
+            int position=getAdapterPosition();
+            switch (menuItem.getItemId()){
+                case 1:
+
+                    books.add(position,new Book("信息安全数学基础（第2版）", R.drawable.book_1));
+//                    notifyDataSetChanged();
+                    CustomAdapter.this.notifyItemInserted(position);
+                    break;
+                case 2:
+                    books.remove(position);
+                    CustomAdapter.this.notifyItemRemoved(position);
+                    break;
+//                case 3:
+//                    View dialagueView=LayoutInflater.from().inflate(R.layout.input_item,null);
+//                    books.remove(position);
+//                    CustomAdapter.this.notifyItemRemoved(position);
+//                    break;
+            }
+            return true;
         }
     }
 
