@@ -36,7 +36,7 @@ public class EditBookActivity extends AppCompatActivity {
                 intent.putExtra("name",editText.getText().toString());
                 intent.putExtra("position",position);
                 setResult(MainActivity.RESULT_CODE_ADD,intent);
-//                EditBookActivity.this.finish();
+                EditBookActivity.this.finish();
             }
         });
 //        cancel.setOnClickListener(new View.OnClickListener() {
