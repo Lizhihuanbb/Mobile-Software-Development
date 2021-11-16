@@ -1,6 +1,8 @@
-package com.jnu.booklistmainactivity;
+package com.jnu.booklistmainactivity.data;
 
-public class Book {
+import java.io.Serializable;
+
+public class Book implements Serializable {
     private String name;
     private int coverresourceid;
     public Book(String name,int coverResourceid){

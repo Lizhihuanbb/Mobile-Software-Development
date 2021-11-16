@@ -5,14 +5,14 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -20,6 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jnu.booklistmainactivity.data.Book;
+import com.jnu.booklistmainactivity.data.DataBank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +65,7 @@ public class MainActivity extends AppCompatActivity{
                 String bookname=data.getStringExtra("name");
                 int position=data.getIntExtra("position",books.size());
                 books.add(position,new Book(bookname,R.drawable.book_no_name));
+                dataBank.saveData();
                 customAdapter.notifyItemInserted(position);
             }
         }
@@ -74,10 +79,12 @@ public class MainActivity extends AppCompatActivity{
                 String bookname=data.getStringExtra("name");
                 int position=data.getIntExtra("position",books.size());
                 books.get(position).setName(bookname);
+                dataBank.saveData();
                 customAdapter.notifyItemChanged(position);
             }
         }
     });
+    private DataBank dataBank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,17 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         initData();
+
+        FloatingActionButton fabAdd=findViewById(R.id.floating_action_button_add);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,EditBookActivity.class);
+                intent.putExtra("position",books.size());
+                launcher_add.launch(intent);
+            }
+        });
+
         customAdapter =new CustomAdapter(books);
         RecyclerView recyclerView=findViewById(R.id.recycle_view_books);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
@@ -92,10 +110,8 @@ public class MainActivity extends AppCompatActivity{
         recyclerView.setAdapter(customAdapter);
     }
     public void initData(){
-        books=new ArrayList<Book>();
-        books.add(new Book("软件项目管理案例教程（第4版）", R.drawable.book_2));
-        books.add(new Book("创新工程实践", R.drawable.book_no_name));
-        books.add(new Book("信息安全数学基础（第2版）", R.drawable.book_1));
+        dataBank = new DataBank(MainActivity.this);
+        books= dataBank.loadData();
     }
     class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>{
         private List<Book> books;
@@ -159,8 +175,26 @@ public class MainActivity extends AppCompatActivity{
                         launcher_edit.launch(intent);
                         break;
                     case MENU_DELETE:
-                        books.remove(position);
-                        CustomAdapter.this.notifyItemRemoved(position);
+//                        books.remove(position);
+//                        dataBank.saveData();
+//                        CustomAdapter.this.notifyItemRemoved(position);
+                        AlertDialog.Builder alertDB = new AlertDialog.Builder(MainActivity.this);
+                        alertDB.setPositiveButton(MainActivity.this.getResources().getString(R.string.string_make_sure), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                books.remove(position);
+                                dataBank.saveData();
+                                CustomAdapter.this.notifyItemRemoved(position);
+                            }
+                        });
+                        alertDB.setNegativeButton(MainActivity.this.getResources().getString(R.string.string_cancel), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        });
+                        alertDB.setMessage(MainActivity.this.getResources().getString(R.string.string_make_sure) +books.get(position).getName()+"？");
+                        alertDB.setTitle(MainActivity.this.getResources().getString(R.string.string_tips)).show();
                         break;
                 }
                 return true;

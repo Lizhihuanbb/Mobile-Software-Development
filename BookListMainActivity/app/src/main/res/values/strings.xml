@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">BookListMainActivity</string>
     <string name="string_book_name">图书名称</string>
-    <string name="e_g_brief_einer_unbekannten">e.g Brief einer Unbekannten</string>
+    <string name="string_e_g">e.g Brief einer Unbekannten</string>
     <string name="string_make_sure">确定</string>
     <string name="string_cancel">取消</string>
+    <string name="string_tips">提示</string>
+
 </resources>

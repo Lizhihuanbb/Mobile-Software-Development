@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="@string/e_g_brief_einer_unbekannten"
+            android:hint="@string/string_e_g"
             android:text="" />
     </LinearLayout>
 
