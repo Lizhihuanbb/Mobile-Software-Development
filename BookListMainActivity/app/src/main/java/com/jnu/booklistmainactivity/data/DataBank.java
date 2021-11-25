@@ -26,9 +26,6 @@ public class DataBank {
     public List<Book> loadData(){
         ObjectInputStream file=null;
         bookArrayList = new ArrayList<Book>();
-//        bookArrayList.add(new Book("软件项目管理案例教程（第4版）", R.drawable.book_2));
-//        bookArrayList.add(new Book("创新工程实践", R.drawable.book_no_name));
-//        bookArrayList.add(new Book("信息安全数学基础（第2版）", R.drawable.book_1));
         try{
             file=new ObjectInputStream(context.openFileInput(FILE_NAME));
             bookArrayList=(ArrayList<Book>)file.readObject();
@@ -43,6 +40,9 @@ public class DataBank {
                 }
             }
         }
+        bookArrayList.add(new Book("软件项目管理案例教程（第4版）", R.drawable.book_2));
+        bookArrayList.add(new Book("创新工程实践", R.drawable.book_no_name));
+        bookArrayList.add(new Book("信息安全数学基础（第2版）", R.drawable.book_1));
         return bookArrayList;
     }
 
