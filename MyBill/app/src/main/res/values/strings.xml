@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">MyBill</string>
+    <string name="string_book_name">图书名称</string>
+    <string name="string_e_g">e.g Brief einer Unbekannten</string>
+    <string name="string_make_sure">确定</string>
+    <string name="string_cancel">取消</string>
+    <string name="string_tips">提示</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="string_add">Add</string>
+    <string name="string_update">Update</string>
+    <string name="string_delete">Delete</string>
+</resources>
