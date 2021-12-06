@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
                 case 1:
                     return WebViewFragment.newInstance();
                 default:
-//                    return WebViewFragment.newInstance();
                     return MapViewFragment.newInstance();
             }
         }

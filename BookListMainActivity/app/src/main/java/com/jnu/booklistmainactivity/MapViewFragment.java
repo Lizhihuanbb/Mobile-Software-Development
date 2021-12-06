@@ -69,7 +69,7 @@ public class MapViewFragment extends Fragment {
         baiduMap.setMapStatus(mMapStatusUpdate);
 
 
-        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.book_1);
+        BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.drawable.jinan);
         MarkerOptions markerOption = new MarkerOptions().icon(bitmap).position(centerPoint);
         Marker marker = (Marker) baiduMap.addOverlay(markerOption);
 
