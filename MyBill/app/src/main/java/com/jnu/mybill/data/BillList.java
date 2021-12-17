@@ -7,12 +7,14 @@ public class BillList implements Serializable {
     private String remarks;
     private int coverreSourceid;
     private double money;
+    private int kind;//1为支出，-1为收入
 
-    public BillList(String catagory, String note, int coverreSourceid, double amounts) {
+    public BillList(String catagory, String note, int coverreSourceid, double amounts, int kind) {
         this.catagory = catagory;
         this.remarks =note;
         this.coverreSourceid=coverreSourceid;
         this.money =amounts;
+        this.kind=kind;
     }
 
 
@@ -46,5 +48,13 @@ public class BillList implements Serializable {
 
     public void setMoney(double money) {
         this.money = money;
+    }
+
+    public int getKind() {
+        return kind;
+    }
+
+    public void setKind(int kind) {
+        this.kind = kind;
     }
 }

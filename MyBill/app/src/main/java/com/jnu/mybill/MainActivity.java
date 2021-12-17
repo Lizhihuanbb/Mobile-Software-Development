@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent=getIntent();
+        int position=intent.getIntExtra("position",0);
+
         initData();
 
         FloatingActionButton fabAdd=findViewById(R.id.floating_action_button_add);
@@ -63,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     public void initData(){
         dataControler=new DataControler(MainActivity.this);
         billLists=dataControler.loadBill();
-
     }
 
     private ActivityResultLauncher<Intent> launcher_add=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
