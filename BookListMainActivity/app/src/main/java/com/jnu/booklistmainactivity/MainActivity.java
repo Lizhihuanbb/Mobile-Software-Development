@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
                     case 2:
                         tab.setText("Sellers");
                         break;
+                    case 3:
+                        tab.setText("Game");
+                        break;
                 }
             }
         });
@@ -57,14 +60,16 @@ public class MainActivity extends AppCompatActivity {
                     return BookFragment.newInstance();
                 case 1:
                     return WebViewFragment.newInstance();
-                default:
+                case 2:
                     return MapViewFragment.newInstance();
+                default:
+                    return GameFragment.newInstance();
             }
         }
 
         @Override
         public int getItemCount() {
-            return 3;
+            return 4;
         }
     }
 }
