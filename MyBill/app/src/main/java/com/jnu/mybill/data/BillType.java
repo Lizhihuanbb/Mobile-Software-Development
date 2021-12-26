@@ -4,7 +4,7 @@ public class BillType {
     private int id;
     private String typeName;
     private int coverResourceId;
-    int kind;
+    int kind;                       //0为支出，1为收入
 
     public BillType(int id, String typeName, int coverResourceId, int kind) {
         this.id = id;

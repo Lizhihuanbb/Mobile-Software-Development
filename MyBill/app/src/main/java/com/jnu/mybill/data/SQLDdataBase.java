@@ -14,25 +14,38 @@ public class SQLDdataBase extends SQLiteOpenHelper {
     }
 
 
+    private int id;
+    private String catagory;            //类型
+    private String remarks;             //备注
+    private int coverreSourceid;        //图片的id
+    private double money;               //金额
+    private int kind;//0为支出，1为收入   //类型
+    private String time;                //时间
+    private int year;
+    private int month;
+    private int day;
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         String sql = "create table billtype(id integer primary key autoincrement,typename varchar(10),coverResourceId integer,kind integer)";
         sqLiteDatabase.execSQL(sql);
         //创建记账表
-//        sql = "create table accounttb(id integer primary key autoincrement,typename varchar(10),sImageId integer,beizhu varchar(80),money float," +
+//        sql = "create table accounttb(sImageId integer,money float," +
 //                "time varchar(60),year integer,month integer,day integer,kind integer)";
 //        db.execSQL(sql);
         init(sqLiteDatabase);
 
-        String billtable ="create table bill(catagory varchar(20), remarks varchar(30), coverResourceId integer, money Double, kind integer)";
-        sqLiteDatabase.execSQL(billtable);
+//        创建账单条目的数据库
+        sql ="create table billList(id integer primary key autoincrement,catagory varchar(10),remarks varchar(80),coverreSourceid integer,"+
+                "money DOUBLE,kind integer,time varchar(60),year integer,month integer,day integer)";
+        sqLiteDatabase.execSQL(sql);
     }
 
     private void init(SQLiteDatabase sqLiteDatabase) {
         String sql = "insert into billtype (typename,coverResourceId,kind) values (?,?,?)";
+        sqLiteDatabase.execSQL(sql,new Object[]{"其他", R.drawable.other,0});
         sqLiteDatabase.execSQL(sql,new Object[]{"食物", R.drawable.food,0});
-        sqLiteDatabase.execSQL(sql,new Object[]{"日常", R.drawable.daily,0});
+//        sqLiteDatabase.execSQL(sql,new Object[]{"日常", R.drawable.daily,0});
         sqLiteDatabase.execSQL(sql,new Object[]{"水果", R.drawable.fruit,0});
         sqLiteDatabase.execSQL(sql,new Object[]{"游戏", R.drawable.game,0});
         sqLiteDatabase.execSQL(sql,new Object[]{"房租水电", R.drawable.home,0});

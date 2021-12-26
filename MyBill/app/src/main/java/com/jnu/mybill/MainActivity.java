@@ -23,8 +23,10 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jnu.mybill.data.BillList;
+import com.jnu.mybill.data.DBControler;
 import com.jnu.mybill.data.DataControler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private MainAdapter mainAdapter;
-    private List<BillList> billLists;
-    private DataControler dataControler;
+    private ArrayList<BillList> billLists=new ArrayList<BillList>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=getIntent();
         int position=intent.getIntExtra("position",0);
 
-        initData();
 
         FloatingActionButton fabAdd=findViewById(R.id.floating_action_button_add);
         fabAdd.setOnClickListener(new View.OnClickListener() {
@@ -63,9 +63,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    public void initData(){
-        dataControler=new DataControler(MainActivity.this);
-        billLists=dataControler.loadBill();
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ArrayList<BillList> billLists1= DBControler.getBillList();
+        billLists.clear();
+        billLists.addAll(billLists1);
+        mainAdapter.notifyDataSetChanged();
     }
 
     private ActivityResultLauncher<Intent> launcher_add=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {

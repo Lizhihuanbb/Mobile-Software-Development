@@ -3,20 +3,27 @@ package com.jnu.mybill.data;
 import java.io.Serializable;
 
 public class BillList implements Serializable {
-    private String catagory;
-    private String remarks;
-    private int coverreSourceid;
-    private double money;
-    private int kind;//1为支出，-1为收入
+    private int id;
+    private String catagory;            //类型
+    private String remarks;             //备注
+    private int coverreSourceid;        //图片的id
+    private double money;               //金额
+    private int kind;//0为支出，1为收入   //类型
+    private String time;                //时间
+    private int year;
+    private int month;
+    private int day;
 
-    public BillList(String catagory, String note, int coverreSourceid, double amounts, int kind) {
-        this.catagory = catagory;
-        this.remarks =note;
-        this.coverreSourceid=coverreSourceid;
-        this.money =amounts;
-        this.kind=kind;
+    public BillList() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getCatagory() {
         return catagory;
@@ -56,5 +63,50 @@ public class BillList implements Serializable {
 
     public void setKind(int kind) {
         this.kind = kind;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public BillList(int id, String catagory, String remarks, int coverreSourceid, double money, int kind, String time, int year, int month, int day) {
+        this.id = id;
+        this.catagory = catagory;
+        this.remarks = remarks;
+        this.coverreSourceid = coverreSourceid;
+        this.money = money;
+        this.kind = kind;
+        this.time = time;
+        this.year = year;
+        this.month = month;
+        this.day = day;
     }
 }

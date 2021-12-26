@@ -10,4 +10,7 @@
     <string name="string_add">Add</string>
     <string name="string_update">Update</string>
     <string name="string_delete">Delete</string>
+    <string name="string_addremarks">添加备注</string>
+    <string name="string_remarks">备注</string>
+    <string name="string_inputtime">请输入时间</string>
 </resources>

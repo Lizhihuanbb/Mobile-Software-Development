@@ -1,4 +1,4 @@
-package com.jnu.mybill;
+package com.jnu.mybill.Module;
 
 import android.inputmethodservice.Keyboard;
 import android.inputmethodservice.KeyboardView;
@@ -6,6 +6,8 @@ import android.text.Editable;
 import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
+
+import com.jnu.mybill.R;
 
 public class MyKeyBorad {
     private KeyboardView keyboardView;
@@ -25,7 +27,7 @@ public class MyKeyBorad {
         this.keyboardView = keyboardView;
         this.editText = editText;
         this.editText.setInputType(InputType.TYPE_NULL);
-        keyBoard = new Keyboard(this.editText.getContext(),R.xml.key);
+        keyBoard = new Keyboard(this.editText.getContext(), R.xml.key);
 
         this.keyboardView.setKeyboard(keyBoard);
         this.keyboardView.setEnabled(true);

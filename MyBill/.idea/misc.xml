@@ -3,10 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/drawable/diaglog_botton.xml" value="0.265625" />
         <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/activity_main.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/activity_option.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/add_list.xml" value="0.18177083333333333" />
         <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/choose_layout.xml" value="0.24947916666666667" />
+        <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/dialog_calendar.xml" value="0.264" />
+        <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/dialog_calender.xml" value="0.175" />
+        <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/dialog_remarks.xml" value="0.4" />
         <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/fragment_blank.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/fragment_income.xml" value="0.24947916666666667" />
         <entry key="..\:/Users/Dell/OneDrive - stu2019.jnu.edu.cn/Project/Android/MyBill/app/src/main/res/layout/fragment_outcome.xml" value="0.23489583333333333" />

@@ -39,8 +39,8 @@ public class DataControler {
                 }
             }
         }
-        billLists.add(new BillList("食物","备注",R.drawable.food,20.0,1));
-        billLists.add(new BillList("食物","备注",R.drawable.food,30.0,1));
+//        billLists.add(new BillList("食物","备注",R.drawable.food,20.0,1));
+//        billLists.add(new BillList("食物","备注",R.drawable.food,30.0,1));
         return billLists;
     }
 

@@ -4,26 +4,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.jnu.mybill.data.DataControler;
-import com.jnu.mybill.data.OptionList;
-
-import java.util.List;
+import com.jnu.mybill.Fragment.IncomeFragment;
+import com.jnu.mybill.Fragment.BaseRecordFragment;
+import com.jnu.mybill.Fragment.TestFragment;
 
 public class OptionActivity extends AppCompatActivity {
 
@@ -70,9 +62,9 @@ public class OptionActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position){
                 case 0:
-                    return OutcomeFragment.newInstance();
+                    return BaseRecordFragment.newInstance();
                 default:
-                    return IncomeFragment.newInstance();
+                    return BaseRecordFragment.newInstance();
             }
         }
 
