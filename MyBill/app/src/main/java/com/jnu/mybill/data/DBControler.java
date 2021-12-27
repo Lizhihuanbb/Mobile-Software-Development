@@ -68,4 +68,7 @@ public class DBControler {
         cursor.close();
         return list;
     }
+    public static void deleteItemFrombillListById(int id){
+        sqLiteDatabase.delete("billList", "id=?", new String[]{id + ""});
+    }
 }

@@ -1,4 +1,4 @@
-package com.jnu.mybill;
+package com.jnu.mybill.Activity;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -22,9 +22,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jnu.mybill.R;
 import com.jnu.mybill.data.BillList;
 import com.jnu.mybill.data.DBControler;
-import com.jnu.mybill.data.DataControler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,OptionActivity.class);
+                Intent intent=new Intent(MainActivity.this, OptionActivity.class);
                 intent.putExtra("position",billLists.size());
                 launcher_add.launch(intent);
             }
@@ -110,9 +110,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
-            public static final int MENU_ADD = 1;
-            public static final int MENU_UPDATE = MENU_ADD+1;
-            public static final int MENU_DELETE = MENU_ADD+2;
+            public static final int MENU_UPDATE = 1;
+            public static final int MENU_DELETE = MENU_UPDATE+2;
             private final ImageView list_item_cover;
             private final TextView list_item_category;
             private final TextView list_item_remarks;
@@ -133,10 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-                MenuItem add=contextMenu.add(contextMenu.NONE,MENU_ADD,MENU_ADD, R.string.string_add);
                 MenuItem edit=contextMenu.add(contextMenu.NONE, MENU_UPDATE, MENU_UPDATE, R.string.string_update);
                 MenuItem delete=contextMenu.add(contextMenu.NONE,MENU_DELETE,MENU_DELETE, R.string.string_delete);
-                add.setOnMenuItemClickListener(this);
                 edit.setOnMenuItemClickListener(this);
                 delete.setOnMenuItemClickListener(this);
             }
@@ -146,13 +143,6 @@ public class MainActivity extends AppCompatActivity {
                 int position=getAdapterPosition();
                 Intent intent= new Intent(MainActivity.this,OptionActivity.class);
                 switch (menuItem.getItemId()){
-                    case MENU_ADD:
-                        intent.putExtra("position",position);
-//                        old way:
-//                        MainActivity.this.startActivityForResult(intent, REQUEST_CODE_ADD);
-//                        new  way:
-                        launcher_add.launch(intent);
-                        break;
                     case MENU_UPDATE:
                         billlists.remove(position);
                         intent.putExtra("position",position);
@@ -168,7 +158,8 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 billlists.remove(position);
-                                dataControler.saveBill();
+                                DBControler.deleteItemFrombillListById(billLists.get(position).getId());
+//                                dataControler.saveBill();
                                 MainActivity.MainAdapter.this.notifyItemRemoved(position);
                             }
                         });
@@ -178,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         });
-                        alertDB.setMessage(MainActivity.this.getResources().getString(R.string.string_make_sure) + billlists.get(position).getCatagory()+"？");
+                        alertDB.setMessage("确定删除" + billlists.get(position).getCatagory()+"？");
                         alertDB.setTitle(MainActivity.this.getResources().getString(R.string.string_tips)).show();
                         break;
                 }
@@ -212,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             holder.getList_item_cover().setImageResource(billlists.get(position).getCoverreSourceid());
             holder.getList_item_category().setText(billlists.get(position).getCatagory());
             holder.getList_item_remarks().setText(billlists.get(position).getRemarks());
-            holder.getList_item_money().setText(String.valueOf(billlists.get(position).getMoney()));
+            holder.getList_item_money().setText("$ "+String.valueOf(billlists.get(position).getMoney()));
         }
 
         @Override

@@ -1,6 +1,5 @@
 package com.jnu.mybill.Fragment;
 
-import android.content.Intent;
 import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
 
@@ -19,7 +18,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jnu.mybill.MainActivity;
 import com.jnu.mybill.Module.MyKeyBorad;
 import com.jnu.mybill.Module.RemarksDialog;
 import com.jnu.mybill.Module.SelectCalendarDiaglog;
@@ -34,7 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class BaseRecordFragment extends Fragment implements View.OnClickListener{
+public abstract class BaseRecordFragment extends Fragment implements View.OnClickListener{
 
     private OutcomeAdapter outcomeAdapter;
     public ArrayList<BillType> billTypes=new ArrayList<BillType>();;
@@ -50,12 +48,6 @@ public class BaseRecordFragment extends Fragment implements View.OnClickListener
         // Required empty public constructor
     }
 
-    public static BaseRecordFragment newInstance() {
-        BaseRecordFragment fragment = new BaseRecordFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -134,14 +126,16 @@ public class BaseRecordFragment extends Fragment implements View.OnClickListener
 
     //    IncomeFragment和OutcomeFragment需要修改的地方  Income为1，Outcome为0
 //////////////////////////////
-    public void initData(){
-        billTypes=DBControler.getBillTypeList(0);
-    }
-
-    public  void saveListToDB() {
-        billList.setKind(0);
-        DBControler.insertItemToBillListDB(billList);
-    }
+    public abstract void initData();
+    public abstract void saveListToDB();
+//    public void initData(){
+//        billTypes=DBControler.getBillTypeList(0);
+//    }
+//
+//    public  void saveListToDB() {
+//        billList.setKind(0);
+//        DBControler.insertItemToBillListDB(billList);
+//    }
 ////////////////////////////////////
 
     //初始化时间类并暂时保存在billlist中

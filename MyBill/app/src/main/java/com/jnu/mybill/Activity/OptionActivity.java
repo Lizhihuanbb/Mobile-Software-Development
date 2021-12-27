@@ -1,4 +1,4 @@
-package com.jnu.mybill;
+package com.jnu.mybill.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.jnu.mybill.Fragment.IncomeFragment;
-import com.jnu.mybill.Fragment.BaseRecordFragment;
-import com.jnu.mybill.Fragment.TestFragment;
+import com.jnu.mybill.Fragment.OutcomeFragment;
+import com.jnu.mybill.R;
 
 public class OptionActivity extends AppCompatActivity {
 
@@ -62,9 +62,9 @@ public class OptionActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position){
                 case 0:
-                    return BaseRecordFragment.newInstance();
+                    return OutcomeFragment.newInstance();
                 default:
-                    return BaseRecordFragment.newInstance();
+                    return IncomeFragment.newInstance();
             }
         }
 

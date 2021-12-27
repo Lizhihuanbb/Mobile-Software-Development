@@ -31,7 +31,7 @@
         android:padding="10dp">
 
         <Button
-            android:id="@+id/dialog_remarks_btn_cancel"
+            android:id="@+id/dialog_remarks_btn_ensure"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
@@ -42,7 +42,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/dialog_remarks_btn_ensure"
+            android:id="@+id/dialog_remarks_btn_cancel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
