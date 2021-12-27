@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,9 +17,12 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.jnu.mybill.Fragment.IncomeFragment;
 import com.jnu.mybill.Fragment.OutcomeFragment;
 import com.jnu.mybill.R;
+import com.jnu.mybill.data.BillList;
+
+import java.io.Serializable;
 
 public class OptionActivity extends AppCompatActivity {
-
+    BillList billList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,12 @@ public class OptionActivity extends AppCompatActivity {
             }
         });
         tabLayoutMediator.attach();
+
+
+        Bundle bundle=getIntent().getExtras();
+        if (bundle!=null)
+            billList= (BillList) bundle.getSerializable("bill");
+
     }
 
     public void onclick(View view) {
@@ -62,9 +72,9 @@ public class OptionActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position){
                 case 0:
-                    return OutcomeFragment.newInstance();
+                    return OutcomeFragment.newInstance(billList);
                 default:
-                    return IncomeFragment.newInstance();
+                    return IncomeFragment.newInstance(billList);
             }
         }
 

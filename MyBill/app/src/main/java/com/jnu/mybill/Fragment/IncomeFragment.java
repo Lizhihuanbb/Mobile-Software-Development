@@ -3,9 +3,16 @@ package com.jnu.mybill.Fragment;
 import android.os.Bundle;
 
 import com.jnu.mybill.Fragment.BaseRecordFragment;
+import com.jnu.mybill.data.BillList;
 import com.jnu.mybill.data.DBControler;
 
 public class IncomeFragment extends BaseRecordFragment {
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public void initData() {
         billTypes= DBControler.getBillTypeList(1);
@@ -16,11 +23,12 @@ public class IncomeFragment extends BaseRecordFragment {
         billList.setKind(1);
         DBControler.insertItemToBillListDB(billList);
     }
-    public static IncomeFragment newInstance() {
-        IncomeFragment fragment = new IncomeFragment();
+    public static OutcomeFragment newInstance(BillList test1) {
+        OutcomeFragment fragment = new OutcomeFragment();
         Bundle args = new Bundle();
-
-        fragment.setArguments(args);
+        args.putSerializable(PARAM1, test1);
+        if (test1!=null)
+            fragment.setArguments(args);
         return fragment;
     }
 }

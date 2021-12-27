@@ -33,14 +33,15 @@ import java.util.Date;
 
 
 public abstract class BaseRecordFragment extends Fragment implements View.OnClickListener{
-
     private OutcomeAdapter outcomeAdapter;
-    public ArrayList<BillType> billTypes=new ArrayList<BillType>();;
-    BillList billList;
-
-    private TextView catagory,remarks,time;
-    private EditText money;
     private KeyboardView keyboard;
+
+    public BillList billList;
+    public BillList test;
+    public TextView catagory,remarks,time;
+    public EditText money;
+    public static String PARAM1="bill";
+    public ArrayList<BillType> billTypes=new ArrayList<BillType>();;
 
 
 
@@ -58,6 +59,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         billList.setCatagory("其他");
         billList.setCoverreSourceid(R.drawable.other);
         if (getArguments() != null) {
+            test = (BillList) getArguments().getSerializable(PARAM1);
         }
     }
 
@@ -78,11 +80,24 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         remarks=rootView.findViewById(R.id.option_remarks);
         time=rootView.findViewById(R.id.option_time);
 
+
         time.setOnClickListener(this);
         remarks.setOnClickListener(this);
 
-
         catagory.setText("其他");
+
+        if (test!=null){
+            catagory.setText(test.getCatagory());
+            money.setText(String.valueOf(test.getMoney()));
+
+            money.setSelection(String.valueOf(test.getMoney()).length());
+            money.requestFocus();
+            if (test.getRemarks()!=null){
+                remarks.setText(test.getRemarks());
+            }
+            else    remarks.setText("备注");
+            time.setText(test.getTime());
+        }
 
 //        show KeyBoard
         MyKeyBorad myKeyBorad=new MyKeyBorad(keyboard, money);
@@ -120,8 +135,12 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         recyclerView.setLayoutManager(girdlayoutManager);
         recyclerView.setAdapter(outcomeAdapter);
 
+
+
+
         return rootView;
     }
+
 
 
     //    IncomeFragment和OutcomeFragment需要修改的地方  Income为1，Outcome为0

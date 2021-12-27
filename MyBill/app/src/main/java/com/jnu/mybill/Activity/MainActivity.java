@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this, OptionActivity.class);
-                intent.putExtra("position",billLists.size());
-                launcher_add.launch(intent);
+                startActivity(intent);
             }
         });
 
@@ -73,34 +72,6 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.notifyDataSetChanged();
     }
 
-    private ActivityResultLauncher<Intent> launcher_add=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            Intent data=result.getData();
-            int resultCode=result.getResultCode();
-            if(resultCode== RESULT_CODE_ADD){
-//                String bookname=data.getStringExtra("name");
-//                int position=data.getIntExtra("position",books.size());
-//                books.add(position,new Book(bookname,R.drawable.book_no_name));
-//                dataBank.saveData();
-//                customAdapter.notifyItemInserted(position);
-            }
-        }
-    });
-    private ActivityResultLauncher<Intent> launcher_edit=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-        @Override
-        public void onActivityResult(ActivityResult result) {
-            Intent data=result.getData();
-            int resultCode=result.getResultCode();
-            if (resultCode==RESULT_CODE_ADD){
-//                String bookname=data.getStringExtra("name");
-//                int position=data.getIntExtra("position",books.size());
-//                books.get(position).setName(bookname);
-//                dataBank.saveData();
-//                customAdapter.notifyItemChanged(position);
-            }
-        }
-    });
 
     class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
         private List<BillList> billlists;
@@ -144,21 +115,24 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent= new Intent(MainActivity.this,OptionActivity.class);
                 switch (menuItem.getItemId()){
                     case MENU_UPDATE:
+                        intent = new Intent(MainActivity.this, OptionActivity.class);
+                        BillList data=billLists.get(position);
+                        Bundle bundle=new Bundle();
+                        bundle.putSerializable("bill",data);
+                        intent.putExtras(bundle);
+                        DBControler.deleteItemFrombillListById(billLists.get(position).getId());
                         billlists.remove(position);
-                        intent.putExtra("position",position);
-                        intent.putExtra("name", billlists.get(position).getCatagory());
-//                        old way:
-//                        MainActivity.this.startActivityForResult(intent, REQUEST_CODE_UPDATE);
-//                        new  way:
-                        launcher_edit.launch(intent);
+                        startActivity(intent);
+//                        intent.putExtra("position",position);
+//                        intent.putExtra("name", billlists.get(position).getCatagory());
                         break;
                     case MENU_DELETE:
                         AlertDialog.Builder alertDB = new AlertDialog.Builder(MainActivity.this);
                         alertDB.setPositiveButton(MainActivity.this.getResources().getString(R.string.string_make_sure), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                billlists.remove(position);
                                 DBControler.deleteItemFrombillListById(billLists.get(position).getId());
+                                billlists.remove(position);
 //                                dataControler.saveBill();
                                 MainActivity.MainAdapter.this.notifyItemRemoved(position);
                             }
