@@ -32,7 +32,9 @@
             android:text=""
             android:textAlignment="textEnd"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold">
+            <requestFocus/>
+        </EditText>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

@@ -2,9 +2,8 @@
 <Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
     android:keyHeight="50dp"
     android:keyWidth="25%"
-    android:horizontalGap="1px"
-    android:verticalGap="1px"
-    >
+    android:horizontalGap="0px"
+    android:verticalGap="0px">
     <Row>
         <Key
             android:codes="49"
@@ -48,13 +47,13 @@
     </Row>
     <Row>
         <Key
-            android:codes="46"
-            android:keyLabel="." />
+            android:codes="-100"
+            android:keyLabel="清除" />
         <Key
             android:codes="48"
             android:keyLabel="0" />
         <Key
-            android:codes="57"
-            android:keyLabel="9" />
+            android:codes="46"
+            android:keyLabel="." />
     </Row>
 </Keyboard>

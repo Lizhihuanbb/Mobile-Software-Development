@@ -36,30 +36,6 @@ public class OutcomeFragment extends BaseRecordFragment {
         DBControler.insertItemToBillListDB(billList);
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View rootview=super.onCreateView(inflater, container, savedInstanceState);
-//        if (test!=null){
-//            catagory.setText(test.getCatagory());
-//            money.setText(String.valueOf(test.getMoney()));
-//
-//            money.setSelection(money.getText().length());
-//            if (test.getRemarks()!=null){
-//                remarks.setText(test.getRemarks());
-//            }
-//            else    remarks.setText("备注");
-//            time.setText(test.getTime());
-//        }
-//        return rootview;
-//    }
-
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            test = (BillList) getArguments().getSerializable(PARAM1);
-//        }
-//    }
 
     public static OutcomeFragment newInstance(BillList test1) {
         OutcomeFragment fragment = new OutcomeFragment();

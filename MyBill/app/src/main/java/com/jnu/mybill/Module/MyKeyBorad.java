@@ -13,6 +13,15 @@ public class MyKeyBorad {
     private KeyboardView keyboardView;
     private EditText editText;
     private final Keyboard keyBoard;
+    private Boolean STATES=false;
+
+    public Boolean getSTATES() {
+        return STATES;
+    }
+
+    public void setSTATES(Boolean STATES) {
+        this.STATES = STATES;
+    }
 
     public interface OnEnsureListener{
         public void onEnsure();
@@ -46,22 +55,31 @@ public class MyKeyBorad {
         }
 
         @Override
-        public void onKey(int i, int[] ints) {
-            Editable editable=editText.getText();
-            int start=editText.getSelectionStart();
-            switch (i){
-                case Keyboard.KEYCODE_DELETE:
-                    if (editable!=null && editable.length()>0){
-                        if (start>0){
+        public void onKey(int primaryCode, int[] keyCodes) {
+            Editable editable = editText.getText();
+            if (editText.getText()!=null&&STATES==true){
+                editable.clear();
+                setSTATES(false);
+            }
+            editable = editText.getText();
+            int start = editText.getSelectionStart();
+            switch (primaryCode) {
+                case Keyboard.KEYCODE_DELETE:   //点击了删除键
+                    if (editable!=null &&editable.length()>0) {
+                        if (start>0) {
                             editable.delete(start-1,start);
                         }
                     }
                     break;
-                case Keyboard.KEYCODE_DONE:
-                    onEnsureListener.onEnsure();
+                case -100:   //点击了清零
+                    editable.clear();
                     break;
-                default:
-                    editable.insert(start,Character.toString((char)i));
+                case Keyboard.KEYCODE_DONE:    //点击了完成
+                    onEnsureListener.onEnsure();   //通过接口回调的方法，当点击确定时，可以调用这个方法
+                    break;
+                default:  //其他数字直接插入
+                    editable.insert(start,Character.toString((char)primaryCode));
+                    break;
             }
         }
 

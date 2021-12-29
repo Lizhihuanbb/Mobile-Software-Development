@@ -23,8 +23,8 @@ public class IncomeFragment extends BaseRecordFragment {
         billList.setKind(1);
         DBControler.insertItemToBillListDB(billList);
     }
-    public static OutcomeFragment newInstance(BillList test1) {
-        OutcomeFragment fragment = new OutcomeFragment();
+    public static IncomeFragment newInstance(BillList test1) {
+        IncomeFragment fragment = new IncomeFragment();
         Bundle args = new Bundle();
         args.putSerializable(PARAM1, test1);
         if (test1!=null)

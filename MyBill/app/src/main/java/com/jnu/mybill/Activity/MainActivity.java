@@ -1,9 +1,5 @@
 package com.jnu.mybill.Activity;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jnu.mybill.Fragment.BaseRecordFragment;
 import com.jnu.mybill.R;
 import com.jnu.mybill.data.BillList;
 import com.jnu.mybill.data.DBControler;
@@ -30,8 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    public static final int RESULT_CODE_ADD = 996;
-
+    TextView totalmoney,outcomemoney,incomemoney;
 
     private MainAdapter mainAdapter;
     private ArrayList<BillList> billLists=new ArrayList<BillList>();
@@ -41,10 +37,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent intent=getIntent();
-        int position=intent.getIntExtra("position",0);
+//        Intent intent=getIntent();
+//        int position=intent.getIntExtra("position",0);
 
-
+        totalmoney=findViewById(R.id.header_totalmoney);
+        outcomemoney=findViewById(R.id.header_outcomemoney);
+        incomemoney=findViewById(R.id.header_incomemoney);
         FloatingActionButton fabAdd=findViewById(R.id.floating_action_button_add);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,21 +61,38 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         ArrayList<BillList> billLists1= DBControler.getBillList();
+
         billLists.clear();
         billLists.addAll(billLists1);
+        Double sum=0.0,income=0.0,outcome=0.0;
+        for (BillList temp:billLists){
+            if (temp.getKind()==1)
+                income=income+temp.getMoney();
+            else outcome=outcome+temp.getMoney();
+        }
+        sum=income-outcome;
+        totalmoney.setText(String.valueOf(sum));
+        incomemoney.setText(String.valueOf(income));
+        outcomemoney.setText(String.valueOf(outcome));
         mainAdapter.notifyDataSetChanged();
     }
 
 
-    class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
+    class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> implements BaseRecordFragment.OnRemoveListener {
         private List<BillList> billlists;
 
         public MainAdapter(List<BillList> billLists){
             this.billlists =billLists;
+        }
+
+        @Override
+        public void onremove() {
+
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
@@ -87,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             private final TextView list_item_category;
             private final TextView list_item_remarks;
             private final TextView list_item_money;
+            private final TextView list_item_time;
 
 
 
@@ -96,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 this.list_item_category = (TextView) itemView.findViewById(R.id.list_item_category);
                 this.list_item_remarks =(TextView)itemView.findViewById(R.id.list_item_remarks);
                 this.list_item_money=(TextView)itemView.findViewById(R.id.list_item_money);
+                this.list_item_time=(TextView)itemView.findViewById(R.id.list_item_time);
 
                 itemView.setOnCreateContextMenuListener(this);
             }
@@ -120,11 +137,7 @@ public class MainActivity extends AppCompatActivity {
                         Bundle bundle=new Bundle();
                         bundle.putSerializable("bill",data);
                         intent.putExtras(bundle);
-                        DBControler.deleteItemFrombillListById(billLists.get(position).getId());
-                        billlists.remove(position);
                         startActivity(intent);
-//                        intent.putExtra("position",position);
-//                        intent.putExtra("name", billlists.get(position).getCatagory());
                         break;
                     case MENU_DELETE:
                         AlertDialog.Builder alertDB = new AlertDialog.Builder(MainActivity.this);
@@ -154,6 +167,10 @@ public class MainActivity extends AppCompatActivity {
 
             public TextView getList_item_category() { return list_item_category; }
 
+            public TextView getList_item_time() {
+                return list_item_time;
+            }
+
             public TextView getList_item_remarks() {
                 return list_item_remarks;
             }
@@ -178,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
             holder.getList_item_category().setText(billlists.get(position).getCatagory());
             holder.getList_item_remarks().setText(billlists.get(position).getRemarks());
             holder.getList_item_money().setText("$ "+String.valueOf(billlists.get(position).getMoney()));
+            holder.getList_item_time().setText(billlists.get(position).getTime().substring(0,11));
         }
 
         @Override

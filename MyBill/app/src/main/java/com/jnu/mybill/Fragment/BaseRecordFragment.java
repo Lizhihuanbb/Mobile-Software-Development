@@ -43,7 +43,14 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     public static String PARAM1="bill";
     public ArrayList<BillType> billTypes=new ArrayList<BillType>();;
 
+    public interface OnRemoveListener{
+        public void onremove();
+    }
+    OnRemoveListener onRemoveListener;
 
+    public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
+        this.onRemoveListener = onRemoveListener;
+    }
 
     public BaseRecordFragment() {
         // Required empty public constructor
@@ -68,7 +75,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView=inflater.inflate(R.layout.fragment_outcome,container,false);
+        View rootView=inflater.inflate(R.layout.fragment_baserecord,container,false);
 
         initData();
 
@@ -81,23 +88,13 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         time=rootView.findViewById(R.id.option_time);
 
 
+
         time.setOnClickListener(this);
         remarks.setOnClickListener(this);
 
         catagory.setText("其他");
 
-        if (test!=null){
-            catagory.setText(test.getCatagory());
-            money.setText(String.valueOf(test.getMoney()));
 
-            money.setSelection(String.valueOf(test.getMoney()).length());
-            money.requestFocus();
-            if (test.getRemarks()!=null){
-                remarks.setText(test.getRemarks());
-            }
-            else    remarks.setText("备注");
-            time.setText(test.getTime());
-        }
 
 //        show KeyBoard
         MyKeyBorad myKeyBorad=new MyKeyBorad(keyboard, money);
@@ -118,6 +115,9 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
 
 //                将数据添加到数据库
                 saveListToDB();
+                if (test!=null){
+                    DBControler.deleteItemFrombillListById(test.getId());
+                }
 
                 getActivity().finish();
 
@@ -128,6 +128,24 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
 //      初始化时间类，并将其显示出来
         setInitTime();
 
+        if (test!=null){
+            catagory.setText(test.getCatagory());
+//            money.setText("");
+            money.setText(String.valueOf(test.getMoney()));
+//            Log.d("num:" ,money.getText().toString());
+//            money.setFocusable(true);
+//            money.setFocusableInTouchMode(true);
+//            money.requestFocus();
+//            Log.d("num:" ,money.getText().toString().length()+"");
+//            money.setSelection(String.valueOf(money.getText()).length());
+
+            if (test.getRemarks()!=null){
+                remarks.setText(test.getRemarks());
+            }
+            else    remarks.setText("备注");
+            time.setText(test.getTime());
+            myKeyBorad.setSTATES(true);
+        }
 
         outcomeAdapter = new OutcomeAdapter(billTypes);
         RecyclerView recyclerView=rootView.findViewById(R.id.option_recycle_view);
