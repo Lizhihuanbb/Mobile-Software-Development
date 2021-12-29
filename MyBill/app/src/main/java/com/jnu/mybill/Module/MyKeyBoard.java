@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.jnu.mybill.R;
 
-public class MyKeyBorad {
+public class MyKeyBoard implements KeyboardView.OnKeyboardActionListener{
     private KeyboardView keyboardView;
     private EditText editText;
     private final Keyboard keyBoard;
@@ -23,39 +23,18 @@ public class MyKeyBorad {
         this.STATES = STATES;
     }
 
-    public interface OnEnsureListener{
-        public void onEnsure();
-    }
-    OnEnsureListener onEnsureListener;
+    @Override
+    public void onPress(int i) {
 
-    public void setOnEnsureListener(OnEnsureListener onEnsureListener) {
-        this.onEnsureListener = onEnsureListener;
     }
 
-    public MyKeyBorad(KeyboardView keyboardView, EditText editText) {
-        this.keyboardView = keyboardView;
-        this.editText = editText;
-        this.editText.setInputType(InputType.TYPE_NULL);
-        keyBoard = new Keyboard(this.editText.getContext(), R.xml.key);
+    @Override
+    public void onRelease(int i) {
 
-        this.keyboardView.setKeyboard(keyBoard);
-        this.keyboardView.setEnabled(true);
-        this.keyboardView.setPreviewEnabled(false);
-        this.keyboardView.setOnKeyboardActionListener(listener);
     }
-    KeyboardView.OnKeyboardActionListener listener=new KeyboardView.OnKeyboardActionListener() {
-        @Override
-        public void onPress(int i) {
 
-        }
-
-        @Override
-        public void onRelease(int i) {
-
-        }
-
-        @Override
-        public void onKey(int primaryCode, int[] keyCodes) {
+    @Override
+    public void onKey(int i, int[] ints) {
             Editable editable = editText.getText();
             if (editText.getText()!=null&&STATES==true){
                 editable.clear();
@@ -63,7 +42,7 @@ public class MyKeyBorad {
             }
             editable = editText.getText();
             int start = editText.getSelectionStart();
-            switch (primaryCode) {
+            switch (i) {
                 case Keyboard.KEYCODE_DELETE:   //点击了删除键
                     if (editable!=null &&editable.length()>0) {
                         if (start>0) {
@@ -78,36 +57,56 @@ public class MyKeyBorad {
                     onEnsureListener.onEnsure();   //通过接口回调的方法，当点击确定时，可以调用这个方法
                     break;
                 default:  //其他数字直接插入
-                    editable.insert(start,Character.toString((char)primaryCode));
+                    editable.insert(start,Character.toString((char)i));
                     break;
             }
-        }
+    }
 
-        @Override
-        public void onText(CharSequence charSequence) {
+    @Override
+    public void onText(CharSequence charSequence) {
 
-        }
+    }
 
-        @Override
-        public void swipeLeft() {
+    @Override
+    public void swipeLeft() {
 
-        }
+    }
 
-        @Override
-        public void swipeRight() {
+    @Override
+    public void swipeRight() {
 
-        }
+    }
 
-        @Override
-        public void swipeDown() {
+    @Override
+    public void swipeDown() {
 
-        }
+    }
 
-        @Override
-        public void swipeUp() {
+    @Override
+    public void swipeUp() {
 
-        }
-    };
+    }
+
+    public interface OnEnsureListener{
+        public void onEnsure();
+    }
+    OnEnsureListener onEnsureListener;
+
+    public void setOnEnsureListener(OnEnsureListener onEnsureListener) {
+        this.onEnsureListener = onEnsureListener;
+    }
+
+    public MyKeyBoard(KeyboardView keyboardView, EditText editText) {
+        this.keyboardView = keyboardView;
+        this.editText = editText;
+        this.editText.setInputType(InputType.TYPE_NULL);
+        keyBoard = new Keyboard(this.editText.getContext(), R.xml.key);
+
+        this.keyboardView.setKeyboard(keyBoard);
+        this.keyboardView.setEnabled(true);
+        this.keyboardView.setPreviewEnabled(false);
+        this.keyboardView.setOnKeyboardActionListener(this);
+    }
 
     public void showKeyboard(){
         int visibility=keyboardView.getVisibility();

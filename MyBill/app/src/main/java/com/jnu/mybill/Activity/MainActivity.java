@@ -37,8 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        Intent intent=getIntent();
-//        int position=intent.getIntExtra("position",0);
+        billLists=DBControler.getBillList();
 
         totalmoney=findViewById(R.id.header_totalmoney);
         outcomemoney=findViewById(R.id.header_outcomemoney);
@@ -69,7 +68,11 @@ public class MainActivity extends AppCompatActivity {
 
         billLists.clear();
         billLists.addAll(billLists1);
-        Double sum=0.0,income=0.0,outcome=0.0;
+        refresh();
+        mainAdapter.notifyDataSetChanged();
+    }
+    private void refresh(){
+        Double sum,income=0.0,outcome=0.0;
         for (BillList temp:billLists){
             if (temp.getKind()==1)
                 income=income+temp.getMoney();
@@ -79,21 +82,16 @@ public class MainActivity extends AppCompatActivity {
         totalmoney.setText(String.valueOf(sum));
         incomemoney.setText(String.valueOf(income));
         outcomemoney.setText(String.valueOf(outcome));
-        mainAdapter.notifyDataSetChanged();
     }
 
 
-    class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> implements BaseRecordFragment.OnRemoveListener {
+    class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
         private List<BillList> billlists;
 
         public MainAdapter(List<BillList> billLists){
             this.billlists =billLists;
         }
 
-        @Override
-        public void onremove() {
-
-        }
 
         public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
             public static final int MENU_UPDATE = 1;
@@ -129,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 int position=getAdapterPosition();
-                Intent intent= new Intent(MainActivity.this,OptionActivity.class);
+                Intent intent;
                 switch (menuItem.getItemId()){
                     case MENU_UPDATE:
                         intent = new Intent(MainActivity.this, OptionActivity.class);
@@ -146,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 DBControler.deleteItemFrombillListById(billLists.get(position).getId());
                                 billlists.remove(position);
-//                                dataControler.saveBill();
                                 MainActivity.MainAdapter.this.notifyItemRemoved(position);
+                                refresh();
                             }
                         });
                         alertDB.setNegativeButton(MainActivity.this.getResources().getString(R.string.string_cancel), new DialogInterface.OnClickListener() {
@@ -196,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
             holder.getList_item_remarks().setText(billlists.get(position).getRemarks());
             holder.getList_item_money().setText("$ "+String.valueOf(billlists.get(position).getMoney()));
             holder.getList_item_time().setText(billlists.get(position).getTime().substring(0,11));
+//            holder.getList_item_time().setText(billlists.get(position).getTime());
+
         }
 
         @Override

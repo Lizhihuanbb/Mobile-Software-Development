@@ -72,15 +72,9 @@ public class OptionActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch (position){
                 case 0:
-                    if (billList!=null && billList.getKind()==0){
                         return OutcomeFragment.newInstance(billList);
-                    }
-                    else return OutcomeFragment.newInstance(null);
                 default:
-                    if (billList!=null && billList.getKind()==1){
                         return IncomeFragment.newInstance(billList);
-                    }
-                    else return IncomeFragment.newInstance(null);
             }
         }
 

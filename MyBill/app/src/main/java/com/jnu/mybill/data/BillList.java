@@ -3,16 +3,16 @@ package com.jnu.mybill.data;
 import java.io.Serializable;
 
 public class BillList implements Serializable {
-    private int id;
+    private int id;                     //billList表中的主属性，独一无二
     private String catagory;            //类型
     private String remarks;             //备注
     private int coverreSourceid;        //图片的id
     private double money;               //金额
-    private int kind;//0为支出，1为收入   //类型
+    private int kind;                   //类型 //0为支出，1为收入
     private String time;                //时间
-    private int year;
-    private int month;
-    private int day;
+    private int year;                   //年
+    private int month;                  //月
+    private int day;                    //日
 
     public BillList() {
     }

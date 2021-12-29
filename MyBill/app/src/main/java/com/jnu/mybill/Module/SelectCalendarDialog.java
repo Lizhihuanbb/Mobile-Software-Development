@@ -14,12 +14,12 @@ import androidx.annotation.NonNull;
 
 import com.jnu.mybill.R;
 
-public class SelectCalendarDiaglog extends Dialog implements View.OnClickListener {
+public class SelectCalendarDialog extends Dialog implements View.OnClickListener {
     EditText hourEt,minuteEt;
     DatePicker datePicker;
     Button ensureBtn,cancelBtn;
 
-    public SelectCalendarDiaglog(@NonNull Context context) {
+    public SelectCalendarDialog(@NonNull Context context) {
         super(context);
     }
 
@@ -106,28 +106,10 @@ public class SelectCalendarDiaglog extends Dialog implements View.OnClickListene
         if (headerView == null) {
             return;
         }
-        //5.0+
-        int headerId = getContext().getResources().getIdentifier("day_picker_selector_layout", "id", "android");
-//        if (headerId == headerView.getId()) {
-//            headerView.setVisibility(View.GONE);
-//            ViewGroup.LayoutParams layoutParamsRoot = rootView.getLayoutParams();
-//            layoutParamsRoot.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-//            rootView.setLayoutParams(layoutParamsRoot);
-//
-//            ViewGroup animator = (ViewGroup) rootView.getChildAt(1);
-//            ViewGroup.LayoutParams layoutParamsAnimator = animator.getLayoutParams();
-//            layoutParamsAnimator.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-//            animator.setLayoutParams(layoutParamsAnimator);
-//
-//            View child = animator.getChildAt(0);
-//            ViewGroup.LayoutParams layoutParamsChild = child.getLayoutParams();
-//            layoutParamsChild.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-//            child.setLayoutParams(layoutParamsChild);
-//            return;
-//        }
+
 
         // 6.0+
-        headerId = getContext().getResources().getIdentifier("date_picker_header","id","android");
+        int headerId = getContext().getResources().getIdentifier("date_picker_header","id","android");
         if (headerId == headerView.getId()) {
             headerView.setVisibility(View.GONE);
         }

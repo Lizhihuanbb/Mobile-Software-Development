@@ -3,7 +3,6 @@ package com.jnu.mybill.data;
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.ContentObservable;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 public class DBControler {
     public static SQLiteDatabase sqLiteDatabase;
     public static void init(Context context){
-        SQLDdataBase temp =new SQLDdataBase(context);
+        SQLDataBase temp =new SQLDataBase(context);
         sqLiteDatabase=temp.getWritableDatabase();
     }
     public static ArrayList<BillType> getBillTypeList(int kind){

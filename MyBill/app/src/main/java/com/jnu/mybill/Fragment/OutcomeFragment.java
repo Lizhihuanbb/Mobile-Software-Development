@@ -4,17 +4,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.text.Editable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.jnu.mybill.Module.SelectCalendarDiaglog;
-import com.jnu.mybill.R;
 import com.jnu.mybill.data.BillList;
 import com.jnu.mybill.data.DBControler;
-
-import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,11 +14,10 @@ import java.util.ArrayList;
  */
 public class OutcomeFragment extends BaseRecordFragment {
 
-//    private static String PARAM1="bill";
-//    BillList test;
     @Override
     public void initData() {
         billTypes= DBControler.getBillTypeList(0);
+        setKind(0);
     }
 
     @Override

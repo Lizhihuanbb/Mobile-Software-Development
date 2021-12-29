@@ -7,15 +7,10 @@ import com.jnu.mybill.data.BillList;
 import com.jnu.mybill.data.DBControler;
 
 public class IncomeFragment extends BaseRecordFragment {
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public void initData() {
         billTypes= DBControler.getBillTypeList(1);
+        setKind(1);
     }
 
     @Override

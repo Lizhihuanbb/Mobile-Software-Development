@@ -1,5 +1,6 @@
 package com.jnu.mybill.data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -8,37 +9,36 @@ import androidx.annotation.Nullable;
 
 import com.jnu.mybill.R;
 
-public class SQLDdataBase extends SQLiteOpenHelper {
-    public SQLDdataBase(@Nullable Context context) {
+public class SQLDataBase extends SQLiteOpenHelper {
+    public SQLDataBase(@Nullable Context context) {
         super(context, "bill.db", null, 1);
     }
-
-
-    private int id;
-    private String catagory;            //类型
-    private String remarks;             //备注
-    private int coverreSourceid;        //图片的id
-    private double money;               //金额
-    private int kind;//0为支出，1为收入   //类型
-    private String time;                //时间
-    private int year;
-    private int month;
-    private int day;
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         String sql = "create table billtype(id integer primary key autoincrement,typename varchar(10),coverResourceId integer,kind integer)";
         sqLiteDatabase.execSQL(sql);
-        //创建记账表
-//        sql = "create table accounttb(sImageId integer,money float," +
-//                "time varchar(60),year integer,month integer,day integer,kind integer)";
-//        db.execSQL(sql);
         init(sqLiteDatabase);
 
 //        创建账单条目的数据库
         sql ="create table billList(id integer primary key autoincrement,catagory varchar(10),remarks varchar(80),coverreSourceid integer,"+
                 "money DOUBLE,kind integer,time varchar(60),year integer,month integer,day integer)";
         sqLiteDatabase.execSQL(sql);
+        initBillList(sqLiteDatabase);
+    }
+
+    private void initBillList(SQLiteDatabase sqLiteDatabase) {
+        String sql = "insert into billList (catagory,remarks,coverreSourceid,money,kind,time,year,month,day) values (?,?,?,?,?,?,?,?,?)";
+        sqLiteDatabase.execSQL(sql,new Object[]{"人情礼物", "步行街",R.drawable.gift,22.0,0,"2021年12月28日 06:17",2021,12,28});
+        sqLiteDatabase.execSQL(sql,new Object[]{"食物", "汉堡包",R.drawable.food,88.1,0,"2021年12月28日 07:22",2021,12,28});
+        sqLiteDatabase.execSQL(sql,new Object[]{"薪资", "HUAWEI",R.drawable.fee,8888.1,1,"2021年12月28日 18:00",2021,12,28});
+        sqLiteDatabase.execSQL(sql,new Object[]{"意外所得", "捡到50元",R.drawable.imaginemoney,50.0,1,"2021年12月29日 08:50",2021,12,29});
+        sqLiteDatabase.execSQL(sql,new Object[]{"房租水电", "",R.drawable.home,2000.0,0,"2021年12月29日 09:10",2021,12,29});
+        sqLiteDatabase.execSQL(sql,new Object[]{"聚会聚餐", "AA海底捞",R.drawable.gathering,300.0,0,"2021年12月29日 18:00",2021,12,29});
+        sqLiteDatabase.execSQL(sql,new Object[]{"旅行旅游", "订机票",R.drawable.trip,500.0,0,"2021年12月30日 08:30",2021,12,30});
+
+
+
     }
 
     private void init(SQLiteDatabase sqLiteDatabase) {
@@ -68,7 +68,6 @@ public class SQLDdataBase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(sql,new Object[]{"投资回报", R.drawable.fund2,1});
         sqLiteDatabase.execSQL(sql,new Object[]{"意外所得", R.drawable.imaginemoney,1});
     }
-
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {

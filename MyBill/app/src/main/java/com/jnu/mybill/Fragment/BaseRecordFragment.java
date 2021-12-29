@@ -9,18 +9,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.jnu.mybill.Module.MyKeyBorad;
+import com.jnu.mybill.Module.MyKeyBoard;
 import com.jnu.mybill.Module.RemarksDialog;
-import com.jnu.mybill.Module.SelectCalendarDiaglog;
+import com.jnu.mybill.Module.SelectCalendarDialog;
 import com.jnu.mybill.R;
 import com.jnu.mybill.data.BillList;
 import com.jnu.mybill.data.BillType;
@@ -33,24 +31,21 @@ import java.util.Date;
 
 
 public abstract class BaseRecordFragment extends Fragment implements View.OnClickListener{
-    private OutcomeAdapter outcomeAdapter;
+    private BaseRecordAdapter baseRecordAdapter;
     private KeyboardView keyboard;
 
-    public BillList billList;
-    public BillList test;
+    public int kind;
+
+    public void setKind(int kind) {
+        this.kind = kind;
+    }
+
+    public BillList billList,test;
     public TextView catagory,remarks,time;
     public EditText money;
     public static String PARAM1="bill";
-    public ArrayList<BillType> billTypes=new ArrayList<BillType>();;
+    public ArrayList<BillType> billTypes=new ArrayList<BillType>();
 
-    public interface OnRemoveListener{
-        public void onremove();
-    }
-    OnRemoveListener onRemoveListener;
-
-    public void setOnRemoveListener(OnRemoveListener onRemoveListener) {
-        this.onRemoveListener = onRemoveListener;
-    }
 
     public BaseRecordFragment() {
         // Required empty public constructor
@@ -97,11 +92,11 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
 
 
 //        show KeyBoard
-        MyKeyBorad myKeyBorad=new MyKeyBorad(keyboard, money);
+        MyKeyBoard myKeyBorad=new MyKeyBoard(keyboard, money);
         myKeyBorad.showKeyboard();
 
 //        设置键盘确定按钮的点击事件
-        myKeyBorad.setOnEnsureListener(new MyKeyBorad.OnEnsureListener() {
+        myKeyBorad.setOnEnsureListener(new MyKeyBoard.OnEnsureListener() {
             @Override
             public void onEnsure() {
 //                获取输入的金额
@@ -128,15 +123,9 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
 //      初始化时间类，并将其显示出来
         setInitTime();
 
-        if (test!=null){
+        if (test!=null&&test.getKind()==kind){
             catagory.setText(test.getCatagory());
-//            money.setText("");
             money.setText(String.valueOf(test.getMoney()));
-//            Log.d("num:" ,money.getText().toString());
-//            money.setFocusable(true);
-//            money.setFocusableInTouchMode(true);
-//            money.requestFocus();
-//            Log.d("num:" ,money.getText().toString().length()+"");
 //            money.setSelection(String.valueOf(money.getText()).length());
 
             if (test.getRemarks()!=null){
@@ -147,11 +136,11 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
             myKeyBorad.setSTATES(true);
         }
 
-        outcomeAdapter = new OutcomeAdapter(billTypes);
+        baseRecordAdapter = new BaseRecordAdapter(billTypes);
         RecyclerView recyclerView=rootView.findViewById(R.id.option_recycle_view);
         GridLayoutManager girdlayoutManager = new GridLayoutManager(this.getContext(), 5);
         recyclerView.setLayoutManager(girdlayoutManager);
-        recyclerView.setAdapter(outcomeAdapter);
+        recyclerView.setAdapter(baseRecordAdapter);
 
 
 
@@ -159,20 +148,10 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         return rootView;
     }
 
-
-
     //    IncomeFragment和OutcomeFragment需要修改的地方  Income为1，Outcome为0
 //////////////////////////////
     public abstract void initData();
     public abstract void saveListToDB();
-//    public void initData(){
-//        billTypes=DBControler.getBillTypeList(0);
-//    }
-//
-//    public  void saveListToDB() {
-//        billList.setKind(0);
-//        DBControler.insertItemToBillListDB(billList);
-//    }
 ////////////////////////////////////
 
     //初始化时间类并暂时保存在billlist中
@@ -207,10 +186,10 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
     
     //设置日历并保存中
     private void showCalendarDialog() {
-        SelectCalendarDiaglog dialog = new SelectCalendarDiaglog(getContext());
+        SelectCalendarDialog dialog = new SelectCalendarDialog(getContext());
         dialog.show();
         //设定确定按钮被点击了的监听器
-        dialog.setOnEnsureListener(new SelectCalendarDiaglog.OnEnsureListener() {
+        dialog.setOnEnsureListener(new SelectCalendarDialog.OnEnsureListener() {
             @Override
             public void onEnsure(String time, int year, int month, int day) {
 
@@ -228,7 +207,7 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
         final RemarksDialog dialog = new RemarksDialog(getContext());
         dialog.show();
         dialog.setDialogSize();
-        dialog.setOnEnsureListener(new MyKeyBorad.OnEnsureListener() {
+        dialog.setOnEnsureListener(new MyKeyBoard.OnEnsureListener() {
             @Override
             public void onEnsure() {
                 String msg = dialog.getEditText();
@@ -244,20 +223,15 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
 
 
 
-    class OutcomeAdapter extends RecyclerView.Adapter<OutcomeAdapter.ViewHolder> {
-
-
+    class BaseRecordAdapter extends RecyclerView.Adapter<BaseRecordAdapter.ViewHolder> {
         private ArrayList<BillType> billtypes;
 
-        public OutcomeAdapter(ArrayList<BillType> billtypes) {
+        public BaseRecordAdapter(ArrayList<BillType> billtypes) {
             this.billtypes = billtypes;
         }
 
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
-            public static final int MENU_ADD = 1;
-            public static final int MENU_UPDATE = MENU_ADD + 1;
-            public static final int MENU_DELETE = MENU_ADD + 2;
+        public class ViewHolder extends RecyclerView.ViewHolder{
             private final ImageView option_item_photo;
             private final TextView option_item_text;
 
@@ -267,47 +241,26 @@ public abstract class BaseRecordFragment extends Fragment implements View.OnClic
                 this.option_item_photo = (ImageView) itemView.findViewById(R.id.option_item_photo);
                 this.option_item_text = (TextView) itemView.findViewById(R.id.option_item_text);
 
-                itemView.setOnCreateContextMenuListener(this);
-            }
-
-
-            @Override
-            public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-                MenuItem edit = contextMenu.add(contextMenu.NONE, MENU_UPDATE, MENU_UPDATE, R.string.string_update);
-                MenuItem delete = contextMenu.add(contextMenu.NONE, MENU_DELETE, MENU_DELETE, R.string.string_delete);
-                edit.setOnMenuItemClickListener(this);
-                delete.setOnMenuItemClickListener(this);
-            }
-
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-    //            int position=getAdapterPosition();
-    //            Intent intent = new Intent(BaseRecordFragment.this.getContext(), MainActivity.class);
-    //            intent.putExtra("position",position);
-                return true;
             }
 
             public ImageView getOption_item_photo() {
                 return option_item_photo;
             }
-
             public TextView getOption_item_text() {
                 return option_item_text;
             }
-
-
         }
 
         @NonNull
         @Override
-        public OutcomeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public BaseRecordAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.option_item_holder, parent, false);
-            return new OutcomeAdapter.ViewHolder(view);
+            return new BaseRecordAdapter.ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull OutcomeAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull BaseRecordAdapter.ViewHolder holder, int position) {
             holder.getOption_item_photo().setImageResource(billtypes.get(position).getCoverResourceId());
             holder.getOption_item_text().setText(billtypes.get(position).getTypeName());
 

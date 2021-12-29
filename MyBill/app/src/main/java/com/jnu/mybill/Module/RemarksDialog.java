@@ -22,14 +22,14 @@ import com.jnu.mybill.R;
 public class RemarksDialog extends Dialog implements View.OnClickListener {
     EditText et;
     Button cancelBtn,ensureBtn;
-    MyKeyBorad.OnEnsureListener onEnsureListener;
+    MyKeyBoard.OnEnsureListener onEnsureListener;
 
 
     public interface OnEnsureListener{
         public void onEnsure();
     }
 
-    public void setOnEnsureListener(MyKeyBorad.OnEnsureListener onEnsureListener) {
+    public void setOnEnsureListener(MyKeyBoard.OnEnsureListener onEnsureListener) {
         this.onEnsureListener = onEnsureListener;
     }
 

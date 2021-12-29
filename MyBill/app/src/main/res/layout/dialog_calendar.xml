@@ -47,16 +47,16 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/string_cancel"
-            android:textColor="@color/green_006400"
-            android:background="@color/white"
+            android:textColor="@color/white"
+            android:background="@drawable/diaglog_botton"
             android:layout_marginRight="20dp"/>
         <Button
             android:id="@+id/dialog_calendar_btn_ensure"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/string_make_sure"
-            android:textColor="@color/green_006400"
-            android:background="@color/white"
+            android:textColor="@color/white"
+            android:background="@drawable/diaglog_botton"
             android:layout_marginRight="20dp"/>
     </LinearLayout>
 </LinearLayout>
